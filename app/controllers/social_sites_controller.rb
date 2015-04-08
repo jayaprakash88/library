@@ -9,4 +9,10 @@ class SocialSitesController < ApplicationController
 	 sign_in :user,@user
 	 redirect_to root_path
  end
+
+ def load_image
+ 	@random_image = current_user.user_pictures.order("RANDOM()").first
+ end
 end
+
+

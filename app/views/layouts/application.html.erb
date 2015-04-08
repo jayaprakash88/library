@@ -20,8 +20,8 @@
           <% else %>
                <%= link_to "Sign out", facebook_logout_path %>
           <% end %>
-    
-    <ul class="navbar-brand"><%= image_tag current_user.profile_picture.url(:thumb),:title => current_user.email,:id => 'new_apple',:class => "img-circle img-responsive",:width=>'65px',:height=>'10px'%></ul>
+    <div id='image_load'>
+    <ul class="navbar-brand"><%= image_tag current_user.profile_picture.url(:thumb),:title => current_user.email,:id => 'new_apple',:class => "img-circle img-responsive",:width=>'65px',:height=>'10px'%></ul></div>
 
      <p class="notice"><%= notice %></p>
       <% if alert %>
@@ -45,4 +45,11 @@ $('#new_apple' ).click(function()
 {
    alert("sd")
 } ); 
+
+
+
+setInterval(function()
+        {
+            $('#image_load').load('/social_sites/load_image');
+        }, 9000);
 </script>

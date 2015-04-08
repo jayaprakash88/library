@@ -12,8 +12,11 @@ class User < ActiveRecord::Base
     :path => "public/system/:class/profile_picture/:id/:style/:filename",
     :url => "/system/:class/profile_picture/:id/:style/:basename.:extension",
     :default_url => "/images/:style/missing.png"
-do_not_validate_attachment_file_type :profile_picture
+  do_not_validate_attachment_file_type :profile_picture
   belongs_to :role
+  
+  has_many :user_pictures, :dependent => :destroy
+  accepts_nested_attributes_for :user_pictures, :reject_if => lambda { |a| a[:photo].blank? }, :allow_destroy => true
 
 
   def self.from_omniauth(auth)
