@@ -1,2 +1,2 @@
 <div id='image_load'>
-    <ul class="navbar-brand"><%= image_tag @random_image.photo.url,:title => current_user.email,:id => 'new_apple',:class => "img-circle img-responsive",:width=>'65px',:height=>'10px'%></ul></div>
+    <ul class="navbar-brand"><%= image_tag  begin @random_image.photo.url rescue current_user.profile_picture.url(:thumb) end ,:title => current_user.email,:id => 'new_apple',:class => "img-circle img-responsive",:width=>'65px',:height=>'10px'%></ul></div>

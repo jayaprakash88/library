@@ -11,6 +11,6 @@ class ApplicationController < ActionController::Base
     token = current_user.access_token
     redirect_url = root_url    
     sign_out(:user)
-    redirect_to "https://www.facebook.com/logout.php?next=#{redirect_url}&access_token=#{token}"    
+    redirect_to redirect_url #"https://www.facebook.com/logout.php?next=#{redirect_url}&access_token=#{token}"    
   end
 end

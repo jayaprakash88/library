@@ -1,7 +1,8 @@
 First::Application.routes.draw do
   get 'social_sites/create'
   get 'social_sites/load_image'
-   get 'registrations/load_image'
+  # get 'registrations/load_image'
+  get 'books/load_graduate'
   devise_for :foundation5s
 
   devise_for :bootstrap3s
@@ -9,7 +10,7 @@ First::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
 
    devise_scope :user do
-    get "load_image", :to => "registrations#load_image"
+    #get "load_image", :to => "registrations#load_image"
   end
  
   get 'auth/:provider/callback' => 'social_sites#create'

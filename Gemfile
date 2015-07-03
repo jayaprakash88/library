@@ -26,11 +26,11 @@ gem 'therubyracer', :platforms => :ruby
 gem "handles_sortable_columns"
 gem 'devise'
 #gem 'foundation-rails'
-gem "therubyracer"
 gem "less-rails"
 gem 'twitter-bootstrap-rails'
 gem 'cancancan', '~> 1.10'
 gem "paperclip", "~> 4.2"
+gem 'aws-sdk', '~> 1.61.0'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
 gem "omniauth"

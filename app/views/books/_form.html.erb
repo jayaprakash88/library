@@ -1,59 +1,88 @@
 <style type="text/css">
-  textarea{ 
-  width: 1200px; 
-  min-width:200px; 
-  max-width:200px; 
+    textarea{ 
+        width: 1200px; 
+        min-width:200px; 
+        max-width:200px; 
 
-  height:1200px; 
-  min-height:200px;  
-  max-height:200px;
-  .newMargin{
-    margin-bottom:13px !important;
-}
-}
+        height:1200px; 
+        min-height:200px;  
+        max-height:200px;
+        .newMargin{
+            margin-bottom:13px !important;
+        }
+    }
 </style>
+
 <table align="center" class="table">
-<%= form_for @book, :html => { :class => 'form-horizontal' ,:multipart => true  } do |f| %>
-  <div class="control-group">
-    <%= f.label :book_name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :book_name, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :author_name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :author_name, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :rate, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :rate, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :description, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :description, :class => 'text_area' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :price, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :price, :class => 'text_field' %>
-    </div>
-  </div>
-<div class="control-group">
-    <%= f.label :attachment, :class => 'control-label' %>
-     <div class="controls">
-      <%= f.file_field :attach, :class => 'text_field' %>
-    </div>
-  </div>
-   <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                books_path, :class => 'btn' %>
-  </div>
-<% end %>
+    <%= form_for @book, :html => { :class => 'form-horizontal' ,:multipart => true  } do |f| %>
+
+      <div class="control-group">
+          <%= f.label :depart_name, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.collection_select :graduate_id,Graduate.where("cource_id is null"),'id','name', :class => 'text_field' %>
+          </div>
+          <div id="alter_select"><%= f.collection_select :department_id,[],'id','name', :class => 'text_field' %></div>
+      </div>  
+
+
+      <div class="control-group">
+          <%= f.label :book_name, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.text_field :book_name, :class => 'text_field' %>
+          </div>
+      </div>
+      <div class="control-group">
+          <%= f.label :author_name, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.text_field :author_name, :class => 'text_field' %>
+          </div>
+      </div>
+      <div class="control-group">
+          <%= f.label :rate, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.number_field :rate, :class => 'number_field' %>
+          </div>
+      </div>
+      <div class="control-group">
+          <%= f.label :description, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.text_area :description, :class => 'text_area' %>
+          </div>
+      </div>
+      <div class="control-group">
+          <%= f.label :price, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.text_field :price, :class => 'text_field' %>
+          </div>
+      </div>
+      <div class="control-group">
+          <%= f.label :attachment, :class => 'control-label' %>
+          <div class="controls">
+              <%= f.file_field :attach, :class => 'text_field' %>
+          </div>
+      </div>
+      <div class="form-actions">
+          <%= f.submit nil, :class => 'btn btn-primary' %>
+          <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            books_path, :class => 'btn' %>
+      </div>
+    <% end %>
 </table>
+
+<script type="text/javascript">
+  $('#book_graduate_id').change(function ()
+  {
+      var graduate_id = $('#book_graduate_id').val();
+
+
+      $.ajax({
+          url: "/books/load_graduate",
+          data: {
+              id: graduate_id}
+      }).done(function () {
+      });
+      //$.get("/books/load_graduate",{q: g_id},function(data){
+
+      //})
+  });
+</script>

@@ -1,0 +1,10 @@
+$("#alter_select").html("<%= escape_javascript  collection_select :book,:department_id,@data,'id','name', :class => 'text_field' ,:include_blank=>'Select' %>");
+
+
+
+
+//$("#ater_select").html("<%= escape_javascript render :partial => "select_from"%>");
+
+//$("#ater_select").html("<%= escape_javascript  select_tag "book[department_id]", options_for_select(["Select",""]+@data.map{|a| [a.name,a.id]}) %>");
+
+

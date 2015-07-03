@@ -7,13 +7,13 @@ class Ability
     #
        user ||= User.new # guest user (not logged in)
        #raise user.inspect
-       if user.role.name == 'Admin User'
-         #can :manage, :all
-         can :manage,[Book]
-       else
+       #if user.role.name == 'Admin User'
+         can :manage, :all
+         #can :manage,[Book]
+       #else
          #can :read, :all
-          can [:read,:edit,:update], Book
-       end
+          #can [:read,:edit,:update], Book
+       #end
     # can :manage, [Review,Report,UsersLocation,RequestReview,AlertEmail,Group,RequestTemplate,Support,DesignSwitcher]
       #can [:edit,:read,:create,:destroy,:new,:update,:index], Location
     # The first argument to `can` is the action you are giving the user

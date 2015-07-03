@@ -3,15 +3,15 @@ class BooksController < ApplicationController
   # GET /books.json
   load_and_authorize_resource
   handles_sortable_columns do |conf|
-  #conf.indicator_text = {}
-end
+    #conf.indicator_text = {}
+  end
 
   def index
     order = sortable_column_order
     @books = Book.order(order)
 
     respond_to do |format|
-     # raise format.inspect
+      # raise format.inspect
       format.html # index.html.erb
       format.json { render json: @books }
     end
@@ -22,15 +22,15 @@ end
   def show
     #raise params.inspect
     @book = Book.find(params[:id])
-     #html = render_to_string :layout => false 
+    #html = render_to_string :layout => false 
 
     #html = render_to_string :layout => false 
-   #kit = PDFKit.new(html, :page_size => 'Legal')
+    #kit = PDFKit.new(html, :page_size => 'Legal')
     #kit.stylesheets << RAILS_ROOT + '/public/stylesheets/scaffold.css'
-   #send_data(kit.to_pdf, :filename => "#{@book.id}", :type => 'application/pdf')
+    #send_data(kit.to_pdf, :filename => "#{@book.id}", :type => 'application/pdf')
   
     respond_to do |format|
-     format.html # show.html.erb
+      format.html # show.html.erb
       format.json { render json: @book }
     end
   end
@@ -97,13 +97,18 @@ end
 
   def pdf_generate
     #  @book = Book.find(params[:id])
-   # html = render_to_string :layout => false 
+    # html = render_to_string :layout => false 
 
     html = render_to_string :layout => true , :action => "index", :formats => :html
     kit = PDFKit.new(html, :page_size => 'Legal')
     #kit.stylesheets << RAILS_ROOT + '/assets/stylesheets/application.css'
     kit.stylesheets << "#{Rails.root.join('app',"assets","stylesheets", "application.css")}"
     send_data(kit.to_pdf, :filename => "l", :type => 'application/pdf')
-   # redirect_to book_path(:id=>@book.id)
+    # redirect_to book_path(:id=>@book.id)
+  end
+  
+  def load_graduate
+    # asds
+    @data =Graduate.find(params[:id]).departments
   end
 end

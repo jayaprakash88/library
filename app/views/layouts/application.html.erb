@@ -9,17 +9,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
-
-<div id="user_nav">
-  <% if user_signed_in? %>
-    Signed in as <%= current_user.email %>. Not you?
-    <%#= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-     <% if current_user.access_token.blank? %>
-             <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
-          <% else %>
-               <%= link_to "Sign out", facebook_logout_path %>
+ <% if user_signed_in? %>
+<nav class="top-bar">
+  <ul class="title-area">
+    <li class="name">
+    
+        <% if user_signed_in? %>
+       <h1><%= link_to "Signed in as #{current_user.email}. Not you?", books_path %></a></h1>
+     <% else %>
+       <h1><%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %></h1>
+  <% end %>
+    </li>
+  </ul>
+  <section class="top-bar-section">
+    <ul class="right">
+      <li class="divider"></li>
+      <li><%= link_to "Browse Products", books_path %></li>
+      <li class="divider"></li>
+      <li><%= link_to "Price List" %></li>
+      <li class="divider"></li>
+      <li><%= link_to "Profile" %></li>
+      <li class="divider"></li>
+      
+        <% if current_user.access_token.blank? %>
+      <li> <%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+       <% else %>
+        <li><%= link_to "Sign out", facebook_logout_path %></li>
           <% end %>
+       
+        <% else %>
+    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
+  
+           <% end %>
+    </ul>
+  </div>
+</nav>
+<% if user_signed_in? %>
+<div id="user_nav">
+  
     <div id='image_load'>
     <ul class="navbar-brand"><%= image_tag current_user.profile_picture.url(:thumb),:title => current_user.email,:id => 'new_apple',:class => "img-circle img-responsive",:width=>'65px',:height=>'10px'%></ul></div>
 
@@ -28,11 +55,9 @@
        <p class="alert"><%= alert %></p> 
       <%end%>
       
-  <% else %>
-    <%= link_to "Sign up", new_user_registration_path %> or <%= link_to "sign in", new_user_session_path %>
-  <% end %>
+  
 </div>
-
+<%end%>
 <div class="container">
   <%= yield %>
 </div>
@@ -48,8 +73,8 @@ $('#new_apple' ).click(function()
 
 
 
-setInterval(function()
-        {
-            $('#image_load').load('/social_sites/load_image');
-        }, 9000);
+<%#*setInterval(function()%>
+        <%#*{%>
+            <%#*$('#image_load').load('/social_sites/load_image');%>
+        <%#*}, 9000);%>
 </script>
