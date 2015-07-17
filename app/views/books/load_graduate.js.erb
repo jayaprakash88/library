@@ -3,8 +3,8 @@ $("#alter_select").html("<%= escape_javascript  collection_select :book,:departm
 
 
 
-//$("#ater_select").html("<%= escape_javascript render :partial => "select_from"%>");
+//$("#ater_select").html("<%#= escape_javascript render :partial => "select_from",:locals=>{:data=>@data}%>");
 
-//$("#ater_select").html("<%= escape_javascript  select_tag "book[department_id]", options_for_select(["Select",""]+@data.map{|a| [a.name,a.id]}) %>");
+//$("#ater_select").html("<%#= escape_javascript  select_tag "book[department_id]", options_for_select(["Select",""]+@data.map{|a| [a.name,a.id]}) %>");
 
 

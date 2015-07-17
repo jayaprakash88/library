@@ -14,14 +14,14 @@
 </style>
 
 <table align="center" class="table">
-    <%= form_for @book, :html => { :class => 'form-horizontal' ,:multipart => true  } do |f| %>
+    <%= form_for book, :html => { :class => 'form-horizontal' ,:multipart => true  } do |f| %>
 
       <div class="control-group">
           <%= f.label :depart_name, :class => 'control-label' %>
           <div class="controls">
-              <%= f.collection_select :graduate_id,Graduate.where("cource_id is null"),'id','name', :class => 'text_field' %>
+              <%= f.collection_select :graduate_id,Graduate.where("cource_id is null"),'id','name', :class => 'text_field' ,:include_blank=>'Select'%>
           </div>
-          <div id="alter_select"><%= f.collection_select :department_id,[],'id','name', :class => 'text_field' %></div>
+          <div id="alter_select"><%= f.collection_select :department_id,[],'id','name', :class => 'text_field',:include_blank=>'Select' %></div>
       </div>  
 
 

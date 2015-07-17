@@ -1,4 +1,9 @@
 First::Application.routes.draw do
+  get "friends/index"
+
+  resources :locations
+
+
   get 'social_sites/create'
   get 'social_sites/load_image'
   # get 'registrations/load_image'
@@ -21,6 +26,9 @@ First::Application.routes.draw do
    end
 end
 
+  resources :friends, :only => [:index] do
+    post 'fb_friends', :on => :collection
+  end
  match '/auth/facebook/logout' => 'application#facebook_logout', :as => :facebook_logout
   # The priority is based upon order of creation:
   # first created -> highest priority.

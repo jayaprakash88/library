@@ -61,8 +61,7 @@ class BooksController < ApplicationController
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else
-        format.html { render action: "new" }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
+        failure_method(format,'new',@book)
       end
     end
   end
@@ -77,12 +76,16 @@ class BooksController < ApplicationController
         format.html { redirect_to @book, notice: 'Book was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
+        failure_method('edit',@book)
+        
       end
     end
   end
 
+  def failure_method(format,actions,book)
+    format.html { render actions }
+    format.json { render json: book.errors, status: :unprocessable_entity }
+  end
   # DELETE /books/1
   # DELETE /books/1.json
   def destroy
@@ -109,6 +112,6 @@ class BooksController < ApplicationController
   
   def load_graduate
     # asds
-    @data =Graduate.find(params[:id]).departments
+    @data = params[:id].blank? ? [] : Graduate.find(params[:id]).departments
   end
 end

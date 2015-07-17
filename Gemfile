@@ -36,7 +36,9 @@ gem 'wkhtmltopdf-binary'
 gem "omniauth"
 gem "omniauth-facebook"
 gem 'open_uri_redirections'
-
+gem 'geocoder'
+gem 'fb_graph'
+gem 'metric_fu'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

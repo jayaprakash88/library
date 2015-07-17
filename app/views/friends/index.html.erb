@@ -1,0 +1,35 @@
+<h1>Friends#index</h1>
+<p>Find me in app/views/friends/index.html.erb</p>
+<div class="span6">
+    <div class="portlet box yellow">
+        <div class="portlet-title">
+            <h4 class="glyphicons no-js facebook">
+                <i></i>
+                Facebook Friend list
+            </h4>
+            <div class="tools">
+                <a class="collapse" href="javascript:;"></a>
+                <a class="reload" href="javascript:;"></a>
+            </div>
+        </div>
+        <div class="portlet-body" style="display: block;" id="fbPortlet">
+            <div id="fbFriends" class="span12 float-left">
+                Loading....
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+          var loadFbFriendlist = function () {
+              $.post('/friends/fb_friends',
+                      {
+                          level: 1
+                      }, function (res) {
+                  $('#fbFriends').html(res);
+              });
+          }
+          loadFbFriendlist();
+      });
+    </script>

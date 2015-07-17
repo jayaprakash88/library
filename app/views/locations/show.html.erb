@@ -1,0 +1,138 @@
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCj3skxjDryAZdoRdJArBZ-FO9pE8gFD9M">
+</script>
+<script type="text/javascript">
+  var contentstring = new Array();
+  var regionlocation = [];
+  var markers = [];
+  var iterator = 0;
+  var areaiterator = 0;
+  var map;
+  var infowindow = [];
+  geocoder = new google.maps.Geocoder();
+
+  $(document).ready(function () {
+      setTimeout(function () {
+          initialize();
+      }, 400);
+  });
+
+  function initialize() {
+      infowindow = [];
+      markers = [];
+      GetValues();
+      iterator = 0;
+      areaiterator = 0;
+      region = new google.maps.LatLng(regionlocation[areaiterator].split(',')[0], regionlocation[areaiterator].split(',')[1]);
+      map = new google.maps.Map(document.getElementById("Map"), {
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: region,
+      });
+      drop();
+  }
+
+  function GetValues() {
+      //Get the Latitude and Longitude of a Point site : http://itouchmap.com/latlong.html
+      contentstring.push("<%=@location.address.capitalize%>")
+      regionlocation.push("<%=@location.latitude%>,<%=@location.longitude%>")
+<% @location.nearbys(50).each do |v| %>
+              contentstring.push("<%=v.address.capitalize%>")
+              regionlocation.push("<%=v.latitude%>,<%=v.longitude%>")
+<% end %>
+              }
+
+              function drop() {
+                  for (var i = 0; i < contentstring.length; i++) {
+                      setTimeout(function () {
+                          addMarker();
+                      }, 800);
+                  }
+              }
+
+              function addMarker() {
+                  var address = contentstring[areaiterator];
+                  var icons = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+                  var add_icons = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                  var templat = regionlocation[areaiterator].split(',')[0];
+                  var templong = regionlocation[areaiterator].split(',')[1];
+                  var temp_latLng = new google.maps.LatLng(templat, templong);
+                  if (address == "<%=@location.address.capitalize%>")
+                  {
+                      markers.push(new google.maps.Marker(
+                              {
+                                  position: temp_latLng,
+                                  map: map,
+                                  icon: add_icons,
+                                  title: address,
+                                  animation: google.maps.Animation.DROP,
+                                  draggable: true
+
+                              }));
+                  }
+                  else
+                  {
+                      markers.push(new google.maps.Marker(
+                              {
+                                  position: temp_latLng,
+                                  map: map,
+                                  icon: icons,
+                                  title: address,
+                                  animation: google.maps.Animation.DROP,
+                                  draggable: true
+
+
+
+                              }));
+                  }
+                  iterator++;
+                  info(iterator);
+                  areaiterator++;
+              }
+
+
+
+              function info(i) {
+                  infowindow[i] = new google.maps.InfoWindow({
+                      content: contentstring[i - 1]
+                  });
+                  infowindow[i].content = contentstring[i - 1];
+                  google.maps.event.addListener(markers[i - 1], 'click', function () {
+                      for (var j = 1; j < contentstring.length + 1; j++) {
+                          infowindow[j].close();
+                      }
+                      infowindow[i].open(map, markers[i - 1]);
+                  });
+              }
+</script>
+
+
+<p>
+    <strong>Address:</strong>
+    <%= @location.address %>
+</p>
+<p>
+    <strong>Latitude:</strong>
+    <%= @location.latitude %>
+</p>
+<p>
+    <strong>Longitude:</strong>
+    <%= @location.longitude %>
+</p>
+
+<h3>Nearby Locations</h3>
+<ul>
+<%#raise @location.nearbys(10).inspect%>
+    <% for location in @location.nearbys(50) %>
+      <li><%= link_to location.address, location %> (<%= location.distance %> miles)</li>
+    <% end %>
+</ul>
+<%#= image_tag "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{@location.latitude}%2C#{@location.longitude}" %>
+
+<p>
+    <%= link_to "Edit", edit_location_path(@location) %> |
+    <%= link_to "Destroy", @location, :confirm => 'Are you sure?', :method => :delete %> |
+    <%= link_to "View All", locations_path %>
+</p>
+<div id="Map" style="width: 1000px; height: 1000px;">
+</div>
