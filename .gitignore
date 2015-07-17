@@ -16,7 +16,7 @@
 /.bundle
 /public/system/
 /config/s3.yml
-/config/omnauth.rb
+config/initializers/omnauth.rb
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
