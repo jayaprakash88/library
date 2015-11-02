@@ -1,0 +1,29 @@
+#require 'AASM'
+#require 'ActiveRecord'
+class Invoice < ActiveRecord::Base
+  attr_accessible :state
+ include AASM
+has_state
+aasm do
+    state :created, :initial => true
+    state :submitted
+    state :rejected
+    state :approved
+
+    event :submit do
+        transitions :to => :submitted, :from => [:created]
+    end
+
+    event :mark_as_incomplete do
+        transitions :to => :created, :from => [:submitted]
+    end
+
+    event :approve do
+        transitions :to => :approved, :from => [:submitted]
+    end
+
+    event :reject do
+        transitions :to => :rejected, :from => [:submitted]
+    end
+end
+end

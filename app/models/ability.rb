@@ -11,7 +11,8 @@ class Ability
       if user.access_token
       can :manage, :all
       else
-        can :manage,[Book]
+       can :manage ,[Book]
+       cannot :manage,[Location]
       end
      else
       can :read, :all

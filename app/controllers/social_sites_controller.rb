@@ -2,10 +2,10 @@ class SocialSitesController < ApplicationController
 	skip_before_filter :authenticate_user!
 	layout false
  def create
-	 auth = env["omniauth.auth"]
-   session[:fb_token] = auth["credentials"]["token"] if auth['provider'] == 'facebook'
-   session[:expires] = auth["credentials"]["expires_at"] if auth['provider'] == 'facebook'
-	 @user = User.from_omniauth(auth)
+	 auth= env["omniauth.auth"]
+   auth_cred = auth["credentials"]
+   session[:fb_token],session[:expires] = auth_cred["token"], auth_cred["expires_at"]  if auth['provider'] == 'facebook'
+   @user = User.from_omniauth(auth)
 	 sign_in :user,@user
 	 redirect_to root_path
  end

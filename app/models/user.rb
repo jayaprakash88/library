@@ -21,21 +21,21 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     #	raise auth.inspect
-  	user = User.find_by_email("#{auth.info.email}")
+    auth_info = auth.info
+    auth_info_email = auth_info.email
+  	user = User.find_by_email("#{auth_info_email}")
     #	raise user.inspect
     unless user
-      user = User.new(:email => auth.info.email,:role_id=>1,:provider => auth.provider,:uid => auth.uid,
-        :access_token => auth.credentials.token)
-      if auth.info.image.present?
-        avatar_url = process_uri(auth.info.image)
+      user = User.new(:email => auth_info_email,:role_id=>1,:provider => auth.provider,:uid => auth.uid)
+      auth_info_image = auth_info.image
+      if auth_info_image.present?
+        avatar_url = process_uri(auth_info_image)
         user.profile_picture = URI.parse(avatar_url)
       end
-      user.save(:validate => false)
       #user.confirm!
-    else
-      user.access_token = auth.credentials.token
-      user.save(:validate => false)
     end
+    user.access_token = auth.credentials.token
+    user.save(:validate => false)
     return user
   end
 

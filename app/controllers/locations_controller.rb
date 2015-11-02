@@ -1,14 +1,15 @@
 class LocationsController < ApplicationController
   before_filter :set_location, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   respond_to :html
 
   def index
-     if params[:search].present?
-    @locations = Location.near(params[:search], 50, :order => :distance)
-  else
-    @locations = Location.all
-  end
+    search = params[:search]
+    if search.present?
+      @locations = Location.near(search, 50, :order => :distance)
+    else
+      @locations = Location.all
+    end
     respond_with(@locations)
   end
 
@@ -41,7 +42,7 @@ class LocationsController < ApplicationController
   end
 
   private
-    def set_location
-      @location = Location.find(params[:id])
-    end
+  def set_location
+    @location = Location.find(params[:id])
+  end
 end

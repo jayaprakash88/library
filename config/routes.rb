@@ -1,6 +1,11 @@
 First::Application.routes.draw do
+  require 'resque/server'
   get "friends/index"
-
+  
+  First::Application.routes.draw do
+    mount Resque::Server.new, at: "/resque"
+  end
+  
   resources :locations
 
 
@@ -14,22 +19,22 @@ First::Application.routes.draw do
 
   devise_for :users, :controllers => {:registrations => "registrations"}
 
-   devise_scope :user do
+  devise_scope :user do
     #get "load_image", :to => "registrations#load_image"
   end
  
   get 'auth/:provider/callback' => 'social_sites#create'
 
   resources :books  do
-   collection do
-       get :pdf_generate
-   end
-end
+    collection do
+      get :pdf_generate
+    end
+  end
 
   resources :friends, :only => [:index] do
     post 'fb_friends', :on => :collection
   end
- match '/auth/facebook/logout' => 'application#facebook_logout', :as => :facebook_logout
+  match '/auth/facebook/logout' => 'application#facebook_logout', :as => :facebook_logout
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -40,21 +45,21 @@ end
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-#match 'books/:id/pdf_generate' => 'books#pdf_generate', :as => :pdf_generate, :via => :get
+  #match 'books/:id/pdf_generate' => 'books#pdf_generate', :as => :pdf_generate, :via => :get
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
   # Sample resource route with options:
-    # resources :books do
-     #  member do
-      #   get 'pdf_generate'
+  # resources :books do
+  #  member do
+  #   get 'pdf_generate'
   #       post 'toggle'
-      #end
+  #end
   #
   #     collection do
   #       get 'sold'
   #     end
-     #end
+  #end
 
   # Sample resource route with sub-resources:
   #   resources :products do
@@ -79,7 +84,7 @@ end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-   root :to => 'books#index'
+  root :to => 'books#index'
 
   # See how all your routes lay out with "rake routes"
 

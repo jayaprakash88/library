@@ -1,3 +1,4 @@
+# Books model to create new books
 class BooksController < ApplicationController
   # GET /books
   # GET /books.json
@@ -55,11 +56,10 @@ class BooksController < ApplicationController
   # POST /books.json
   def create
     @book = Book.new(params[:book])
-
+    Resque.enqueue(Sleeper, 60)
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
-        format.json { render json: @book, status: :created, location: @book }
+        success_method(format,@book,'Book was successfully created.')
       else
         failure_method(format,'new',@book)
       end
@@ -70,22 +70,15 @@ class BooksController < ApplicationController
   # PUT /books/1.json
   def update
     @book = Book.find(params[:id])
-
     respond_to do |format|
       if @book.update_attributes(params[:book])
-        format.html { redirect_to @book, notice: 'Book was successfully updated.' }
-        format.json { head :no_content }
+        success_method(format,@book,'Book was successfully updated.')
       else
-        failure_method('edit',@book)
-        
+        failure_method(format,'edit',@book)        
       end
     end
   end
-
-  def failure_method(format,actions,book)
-    format.html { render actions }
-    format.json { render json: book.errors, status: :unprocessable_entity }
-  end
+  
   # DELETE /books/1
   # DELETE /books/1.json
   def destroy
@@ -109,9 +102,20 @@ class BooksController < ApplicationController
     send_data(kit.to_pdf, :filename => "l", :type => 'application/pdf')
     # redirect_to book_path(:id=>@book.id)
   end
-  
+
   def load_graduate
-    # asds
-    @data = params[:id].blank? ? [] : Graduate.find(params[:id]).departments
+    graduate_id = params[:id]
+    @data = graduate_id.blank? ? [] : Graduate.find(graduate_id).departments
+  end
+  
+  private
+  
+  def failure_method(format,actions,book)
+    format.html { render actions }
+    format.json { render json: book.errors, status: :unprocessable_entity }
+  end
+  
+  def success_method(format,book,msg)
+    format.html { redirect_to book, notice: msg }
   end
 end
