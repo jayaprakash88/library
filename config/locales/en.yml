@@ -3,3 +3,11 @@
 
 en:
   hello: "Hello world"
+  will_paginate:
+    line_item:
+      page_entries_info:
+        single_page:
+          zero:  "Your shopping cart is empty"
+          one:   "Displaying one item in your cart"
+          other: "Displaying all %{count} items"
+        multi_page: "Displaying items %{from} - %{to} of %{count} in total"

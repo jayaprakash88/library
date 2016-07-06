@@ -1,6 +1,5 @@
 class User::InvitationsController < Devise::InvitationsController
-	 def new
-    binding.pry
+  def new
     self.resource = resource_class.new
     render :new
   end 
