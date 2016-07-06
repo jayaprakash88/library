@@ -12,7 +12,7 @@ First::Application.routes.draw do
   get 'social_sites/create'
   get 'social_sites/load_image'
   # get 'registrations/load_image'
-  get 'books/load_graduate'
+ 
   devise_for :foundation5s
 
   devise_for :bootstrap3s
@@ -28,6 +28,8 @@ First::Application.routes.draw do
   resources :books  do
     collection do
       get :pdf_generate
+      get :load_graduate
+      get :search
     end
   end
 
