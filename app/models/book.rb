@@ -1,4 +1,7 @@
+require 'elasticsearch/model'
 class Book < ActiveRecord::Base
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
   attr_accessible :author_name, :book_name, :description, :price, :rate,:attach,:graduate_id, :department_id
   attr_accessor :graduate_id,:department_id
   do_not_validate_attachment_file_type :attach

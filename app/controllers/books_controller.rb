@@ -9,7 +9,12 @@ class BooksController < ApplicationController
 
   def index
     order = sortable_column_order
-    @books = Book.order(order)
+    if params[:book_name].present?
+      @books = Book.search(params[:book_name], load: true)
+    else
+      @books = Book.paginate(:page => params[:page], :per_page => 1).order("id")
+    end
+    
 
     respond_to do |format|
       # raise format.inspect
@@ -104,10 +109,12 @@ class BooksController < ApplicationController
   end
 
   def load_graduate
-    graduate_id = params[:id]
+    graduate_id = params[:graduate_id]
     @data = graduate_id.blank? ? [] : Graduate.find(graduate_id).departments
   end
   
+  
+
   private
   
   def failure_method(format,actions,book)

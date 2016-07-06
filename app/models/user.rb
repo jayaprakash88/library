@@ -1,13 +1,13 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable
-
+  devise :database_authenticatable, :invitable, :invite_for => 2.weeks
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me,:profile_picture,:role_id,:provider,:uid,:access_token
   # attr_accessible :title, :body
-  #devise :timeoutable, :timeout_in => 30.seconds
+  #devise :invitable, :timeoutable, :timeout_in => 30.seconds
   has_attached_file :profile_picture,  :styles => { :medium => "300x300>", :thumb => "100x100>" }, 
     :path => "public/system/:class/profile_picture/:id/:style/:filename",
     :url => "/system/:class/profile_picture/:id/:style/:basename.:extension",

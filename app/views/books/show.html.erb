@@ -15,14 +15,12 @@
   <dt><strong><%= model_class.human_attribute_name(:price) %>:</strong></dt>
   <dd><%= @book.price %></dd>
   <dt><strong><%= model_class.human_attribute_name(:file_attached) %>:</strong></dt>
-  <dd><a href="<%= @book.attach.url %> "><%= image_tag @book.attach.url(:pdf_thumbnail), :size => "100x100" %></a></dd>
+  <dd><a href="<%= @book.attach.url %> " target="_blank"><%= image_tag @book.attach.url(:pdf_thumbnail), :size => "100x100" %></a></dd>
  </dl>
-<%= link_to  @book.attach.url, :class => "btn btn-large btn-danger" do %>
-  Download Now
-<% end %>
+<%= link_to  @book.attach.url,{:class => "btn btn-large btn-danger" ,:target=>"_blank"} do %> Download Now<% end %>
 <%= link_to 'Download Report', book_path(format: 'pdf')%>
 
-<p id="pdf_link"><%= link_to "Download Invoice (PDF)",{:action=>'pdf_generate', :format => "pdf" }%></p>
+<p id="pdf_link"><%= link_to "Download Invoice (PDF)",{:action=>'pdf_generate', :format => "pdf" },:target=>"_blank"%></p>
 
 
 <div class="form-actions">

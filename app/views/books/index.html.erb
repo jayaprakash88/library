@@ -1,10 +1,23 @@
 
- 
+  
 <%- model_class = Book -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
-   
+<%= form_tag books_path, method: :get do %>
+<div class="page-header" id="container">
+ <div id="left" class="txt-bold">
+  <%=t '.title', :default => model_class.model_name.human.pluralize.titleize %>
+  
+   </div>
+ <div id="right">
+    <%= text_field_tag :book_name, params[:book_name],:class=>'text-field' %>
+    <%= submit_tag "Search", name: nil,:class=>"mbtm10" %>
+ </div>
 </div>
+<div id="container">
+  <div id="left"></div>
+  <div id="right"></div>
+  <div id="center"></div>
+</div>
+<% end %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -15,6 +28,7 @@
       <th><%= sortable_column model_class.human_attribute_name(:description) %></th>
       <th><%= sortable_column model_class.human_attribute_name(:price) %></th>
       <th><%= sortable_column model_class.human_attribute_name(:created_at) %></th>
+      <th><%= "File" %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -28,7 +42,13 @@
         <td><%= book.description %></td>
         <td><%= book.price %></td>
         <td><%=l book.created_at %></td>
-        <td><a href= <%= "#{book.attach.url}"%>, style="text-decoration:none"><%= image_tag book.attach.url(:pdf_thumbnail), :size => "100x100" %></a></td>
+        <td>
+        <% if book.attach_file_name.blank? %>
+          <%=  "Book is not available" %>
+          <%else%>
+          <%= link_to book.attach_file_name, book.attach.url,:target=>"_blank",:class=>"txt-bold"%>
+          <%end%>
+        </td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_book_path(book), :class => 'btn btn-mini' %>
@@ -42,7 +62,12 @@
     <% end %>
   </tbody>
 </table>
-
+<div class="digg_pagination">
+    <div class="page_info">
+      <%= page_entries_info @books %>
+    </div>
+    <%= will_paginate @books, :container => false %>
+  </div>
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_book_path,
             :class => 'btn btn-primary' %>
@@ -50,4 +75,7 @@
 <%= link_to t('.pdf_generate', :default => t("helpers.links.PDF")),
             pdf_generate_books_path,
             :class => 'btn btn-primary' %>
+
+
+
 

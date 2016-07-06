@@ -1,0 +1,32 @@
+.text-field{
+	width: 220px !important;
+    height: 30px !important;
+}
+#container {
+    width:100%;
+    text-align:center;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+#left {
+    float:left;
+    width:100px;
+    font-size: 26.5px;
+}
+
+
+
+#right {
+    float:right;
+}
+
+.mbtm10{
+	margin-bottom:10px;
+}
+.txt-bold{
+	 font-weight: bold;
+}
+.img-responsive{
+	height: 50px;
+}
